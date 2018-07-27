@@ -1,0 +1,9 @@
+package: yaomart
+import:
+- package: github.com/astaxie/beego
+  version: ^1.9.2
+testImport:
+- package: github.com/smartystreets/goconvey
+  version: ^1.6.3
+  subpackages:
+  - convey
