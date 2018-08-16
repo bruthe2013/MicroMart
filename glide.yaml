@@ -1,4 +1,4 @@
-package: yaomart
+package: MicroMart
 import:
 - package: github.com/astaxie/beego
   version: ^1.9.2

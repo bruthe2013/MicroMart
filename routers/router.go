@@ -9,7 +9,7 @@ package routers
 
 import (
 	"fmt"
-	"MicroMart/controllers"
+	"../controllers"
 
 	"github.com/astaxie/beego"
 )

@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"fmt"
-	"MicroMart/models"
+	"../models"
 
 	"github.com/astaxie/beego"
 )
