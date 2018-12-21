@@ -2,14 +2,34 @@ package controllers
 
 import (
 	"fmt"
-	"../models"
-
+	"MicroMart/models"
 	"github.com/astaxie/beego"
+	"github.com/dgrijalva/jwt-go"
+	"time"
 )
 
 type UserController struct {
 	beego.Controller
 }
+type UserResp struct {
+	StatusCode int
+	Msg string
+}
+type LoginResp struct {
+	UserResp
+	LoginState int
+	Token string
+	Id int
+}
+type ModifyPassword struct {
+	UserResp
+	State int
+}
+
+
+const (
+	SecretKey = "MicroMart"
+)
 
 func (c *UserController) Get() {
 	c.Data["json"] = "test"
@@ -40,18 +60,33 @@ func (c *UserController) Getinfo() {
 }
 
 func (this *UserController) Login() {
+	//返回0用户不存在，1密码错误，2成功
 	p := this.GetString("password")
 	n := this.GetString("username")
-	switch models.Login(n, p) {
-	case 0:
-		this.Data["json"] = "user not exist"
-		break
-	case 1:
-		this.Data["json"] = "password err"
-		break
-	case 2:
-		this.Data["json"] = "login success"
-		break
+	lr:=LoginResp{}
+	lr.StatusCode=200
+	lr.Msg="success"
+	if lr.LoginState,lr.Id=models.Login(n,p);lr.LoginState==2 {
+		lr.Token,_=getToken()
 	}
+	this.Data["json"]=lr
+	this.ServeJSON()
+}
+func getToken() (string,error) {
+	token:=jwt.New(jwt.SigningMethodHS256)
+	claims:=make(jwt.MapClaims)
+	claims["exp"] = time.Now().Add(time.Hour*time.Duration(1)).Unix()
+	claims["iat"]=time.Now().Unix()
+	token.Claims=claims
+	return token.SignedString([]byte(SecretKey))
+}
+func (this *UserController)ModifyPassword()  {
+	uid,_:=this.GetInt("uid")
+	p:=this.GetString("password")
+	status:=models.ModifyPassword(uid,p)
+	mr:=ModifyPassword{State:status}
+	mr.StatusCode=200
+	mr.Msg="OK"
+	this.Data["json"]=mr
 	this.ServeJSON()
 }

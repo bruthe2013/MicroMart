@@ -9,7 +9,7 @@ package routers
 
 import (
 	"fmt"
-	"../controllers"
+	"MicroMart/controllers"
 
 	"github.com/astaxie/beego"
 )
@@ -20,5 +20,6 @@ func init() {
 	beego.Router("/user/getinfo", &controllers.UserController{}, "get:Getinfo")
 	beego.Router("/user/add", &controllers.UserController{}, "post:Add")
 	beego.Router("/user/login", &controllers.UserController{}, "post:Login")
+	beego.Router("/user/modify",&controllers.UserController{},"post:ModifyPassword")
 	fmt.Println("注册路由成功")
 }
