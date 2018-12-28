@@ -1,8 +1,8 @@
 package main
 
 import (
-	_ "./initial"
-	_ "./routers"
+	_ "MicroMart/initial"
+	_ "MicroMart/routers"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
@@ -16,5 +16,3 @@ func main() {
 	}
 	beego.Run()
 }
-
-

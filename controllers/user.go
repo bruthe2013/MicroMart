@@ -1,11 +1,12 @@
 package controllers
 
 import (
-	"fmt"
 	"MicroMart/models"
+	"fmt"
+	"time"
+
 	"github.com/astaxie/beego"
 	"github.com/dgrijalva/jwt-go"
-	"time"
 )
 
 type UserController struct {
@@ -13,19 +14,18 @@ type UserController struct {
 }
 type UserResp struct {
 	StatusCode int
-	Msg string
+	Msg        string
 }
 type LoginResp struct {
 	UserResp
 	LoginState int
-	Token string
-	Id int
+	Token      string
+	Id         int
 }
 type ModifyPassword struct {
 	UserResp
 	State int
 }
-
 
 const (
 	SecretKey = "MicroMart"
@@ -63,30 +63,35 @@ func (this *UserController) Login() {
 	//返回0用户不存在，1密码错误，2成功
 	p := this.GetString("password")
 	n := this.GetString("username")
-	lr:=LoginResp{}
-	lr.StatusCode=200
-	lr.Msg="success"
-	if lr.LoginState,lr.Id=models.Login(n,p);lr.LoginState==2 {
-		lr.Token,_=getToken()
+	lr := LoginResp{}
+	lr.StatusCode = 200
+	lr.Msg = "success"
+	if lr.LoginState, lr.Id = models.Login(n, p); lr.LoginState == 2 {
+		lr.Token, _ = getToken()
 	}
-	this.Data["json"]=lr
+	this.Data["json"] = lr
 	this.ServeJSON()
 }
-func getToken() (string,error) {
-	token:=jwt.New(jwt.SigningMethodHS256)
-	claims:=make(jwt.MapClaims)
-	claims["exp"] = time.Now().Add(time.Hour*time.Duration(1)).Unix()
-	claims["iat"]=time.Now().Unix()
-	token.Claims=claims
+func getToken() (string, error) {
+	token := jwt.New(jwt.SigningMethodHS256)
+	claims := make(jwt.MapClaims)
+	claims["exp"] = time.Now().Add(time.Hour * time.Duration(1)).Unix()
+	claims["iat"] = time.Now().Unix()
+	token.Claims = claims
 	return token.SignedString([]byte(SecretKey))
 }
-func (this *UserController)ModifyPassword()  {
-	uid,_:=this.GetInt("uid")
-	p:=this.GetString("password")
-	status:=models.ModifyPassword(uid,p)
-	mr:=ModifyPassword{State:status}
-	mr.StatusCode=200
-	mr.Msg="OK"
-	this.Data["json"]=mr
+func (this *UserController) ModifyPassword() {
+	uid, _ := this.GetInt("uid")
+	p := this.GetString("password")
+	status := models.ModifyPassword(uid, p)
+	mr := ModifyPassword{State: status}
+	mr.StatusCode = 200
+	mr.Msg = "OK"
+	this.Data["json"] = mr
 	this.ServeJSON()
+}
+
+//下载图片
+func (this *UserController) DownLoadImg() {
+	this.Ctx.Output.Download("D:/file_sys/"+this.Ctx.Input.Param(":name"), "test.png")
 }

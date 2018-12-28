@@ -1,8 +1,9 @@
 package models
 
 import (
-	"github.com/astaxie/beego/orm"
 	"fmt"
+
+	"github.com/astaxie/beego/orm"
 )
 
 func init() {
@@ -37,35 +38,37 @@ func GetUser(uid int) (u *User, err error) {
 	u = &user
 	return u, err
 }
+
 //登录，0无账号，1密码错误 2成功
-func Login(username, password string) (int,int) {
+func Login(username, password string) (int, int) {
 	o := orm.NewOrm()
 	fmt.Println(username)
-	user:=User{
-		Username:username,
+	user := User{
+		Username: username,
 	}
-	err := o.Read(&user,"username")
+	err := o.Read(&user, "username")
 	if err == orm.ErrNoRows {
 		//无此账号
-		return 0,0
+		return 0, 0
 	}
 	if user.Password != password {
-		return 1,0
+		return 1, 0
 	}
-	return 2,user.Id
+	return 2, user.Id
 }
+
 //修改密码
-func ModifyPassword(id int,password string)int  {
+func ModifyPassword(id int, password string) int {
 	o := orm.NewOrm()
-	user:=User{Id:id}
-	if o.Read(&user)==nil {
-		user.Password=password
-		if num,err:=o.Update(&user);err==nil {
-			fmt.Println("修改密码",num)
+	user := User{Id: id}
+	if o.Read(&user) == nil {
+		user.Password = password
+		if num, err := o.Update(&user); err == nil {
+			fmt.Println("修改密码", num)
 			return 1
 		}
 		return 1
-	}else{
+	} else {
 		return 2
 	}
 }
