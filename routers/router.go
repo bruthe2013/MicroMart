@@ -10,8 +10,6 @@ package routers
 import (
 	"MicroMart/controllers"
 	"fmt"
-	"unicode/utf8"
-
 	"github.com/astaxie/beego"
 )
 
