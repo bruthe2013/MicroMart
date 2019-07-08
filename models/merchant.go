@@ -14,6 +14,7 @@ type Merchant struct {
 	Name     string
 	Password string
 }
+
 func AddMerchant(u Merchant) Merchant {
 	o := orm.NewOrm()
 	o.Using("default")
@@ -36,8 +37,9 @@ func GetMerchant(uid int) (u *User, err error) {
 	u = &user
 	return u, err
 }
+
 //商家登录 0无账号，1密码错误 2成功
-func MerchantLogin(name, password string) (int, int)  {
+func MerchantLogin(name, password string) (int, int) {
 	o := orm.NewOrm()
 	user := Merchant{
 		Name: name,
@@ -52,6 +54,7 @@ func MerchantLogin(name, password string) (int, int)  {
 	}
 	return 2, user.Id
 }
+
 //修改密码
 func MerchantModifyPassword(id int, password string) int {
 	o := orm.NewOrm()

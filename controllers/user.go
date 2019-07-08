@@ -48,7 +48,7 @@ func (this *UserController) Add() {
 	this.ServeJSON()
 }
 
-func (c *UserController) Getinfo() {
+func (c *UserController) GetInfo() {
 	id, _ := c.GetInt("id")
 	fmt.Println(id)
 	us, err := models.GetUser(id)
