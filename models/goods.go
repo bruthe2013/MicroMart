@@ -30,7 +30,6 @@ func AddGoods(goods Goods)Goods  {
 	}
 	return *g
 }
-func GetGoodsByUser(id int)Goods  {
-	o:=orm.NewOrm()
-	return
+func GetGoodsByUser(id int)  {
+	
 }

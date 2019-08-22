@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"github.com/astaxie/beego"
+	"../models"
 	"fmt"
-	"MicroMart/models"
+	"github.com/astaxie/beego"
 )
 
 type MerchantController struct {

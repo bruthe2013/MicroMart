@@ -1,8 +1,8 @@
 package main
 
 import (
-	_ "MicroMart/initial"
-	_ "MicroMart/routers"
+	_ "./initial"
+	_ "./routers"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"

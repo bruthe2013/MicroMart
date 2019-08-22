@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"MicroMart/models"
+	"../models"
 	"fmt"
 	"time"
 
